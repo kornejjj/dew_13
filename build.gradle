@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.flywaydb.flyway' version '8.5.13'
+    id 'application'
+}
+
+group 'com.spacetravel'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+dependencies {
+    implementation 'com.h2database:h2:2.2.220'
+    implementation 'org.hibernate:hibernate-core:5.6.15.Final'
+    implementation 'org.flywaydb:flyway-core:8.5.13'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+flyway {
+    url = 'jdbc:h2:mem:spacetraveldb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE'
+    user = 'sa'
+    password = ''
+    schemas = ['PUBLIC']
+    locations = ['filesystem:src/main/resources/db/migration']
+}
+
+application {
+    mainClass = 'com.spacetravel.TestApplication'
+}
+
+test {
+    useJUnitPlatform()
+}
