@@ -13,7 +13,7 @@ public class Client {
     @Column(name = "name", columnDefinition = "VARCHAR(255)")  // Замінили CHARACTER VARYING на VARCHAR
     private String name;
 
-    // Геттери та сеттери
+
     public long getId() {
         return id;
     }

@@ -26,10 +26,10 @@ public final class Ticket {
     @JoinColumn(name = "to_planet_id", nullable = false)
     private Planet toPlanet;
 
-    // Конструктор без параметрів для Hibernate
+
     public Ticket() {}
 
-    // Конструктор з параметрами для зручності
+
     public Ticket(Client client, Planet fromPlanet, Planet toPlanet) {
         this.client = client;
         this.fromPlanet = fromPlanet;
@@ -37,7 +37,7 @@ public final class Ticket {
         this.createdAt = LocalDateTime.now(); // Призначення поточної дати та часу
     }
 
-    // Геттери та сеттери
+
     public Long getId() {
         return id;
     }

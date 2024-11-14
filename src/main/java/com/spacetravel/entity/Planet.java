@@ -3,17 +3,19 @@ package com.spacetravel.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Planet {
 
     @Id
+    @Pattern(regexp = "^[A-Z0-9]+$", message = "ID must contain only uppercase Latin letters and digits")
     private String id;
 
     @Column(name = "name", columnDefinition = "VARCHAR(255)")  // Замінили CHARACTER VARYING на VARCHAR
     private String name;
 
-    // Геттери та сеттери
+
     public String getId() {
         return id;
     }

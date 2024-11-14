@@ -22,6 +22,9 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:8.5.13'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.glassfish:jakarta.el:3.0.3'
 }
 
 flyway {
