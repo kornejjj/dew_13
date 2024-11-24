@@ -30,5 +30,6 @@
         <!-- Mention annotated class -->
         <mapping class="com.spacetravel.entity.Client"/>
         <mapping class="com.spacetravel.entity.Planet"/>
+        <mapping class="com.spacetravel.entity.Ticket" />
     </session-factory>
 </hibernate-configuration>
