@@ -2,54 +2,48 @@ package com.spacetravel;
 
 import com.spacetravel.entity.Client;
 import com.spacetravel.entity.Planet;
+import com.spacetravel.entity.Ticket;
 import com.spacetravel.service.ClientCrudService;
 import com.spacetravel.service.PlanetCrudService;
-
-import java.util.List;
+import com.spacetravel.service.TicketCrudService;
 
 public class TestApplication {
-
     public static void main(String[] args) {
+        ClientCrudService clientService = new ClientCrudService();
+        PlanetCrudService planetService = new PlanetCrudService();
+        TicketCrudService ticketService = new TicketCrudService();
 
-        ClientCrudService clientCrudService = new ClientCrudService();
-        PlanetCrudService planetCrudService = new PlanetCrudService();
+        // Створення клієнта
+        Client client = new Client();
+        client.setName("Jane Doe");
+        clientService.createClient(client);
 
-        try {
+        // Створення планет
+        Planet earth = new Planet();
+        earth.setId("EARTH");
+        earth.setName("Earth");
+        planetService.createPlanet(earth);
 
-            Client client1 = new Client();
-            client1.setName("John Doe");
-            clientCrudService.createClient(client1);
+        Planet mars = new Planet();
+        mars.setId("MARS");
+        mars.setName("Mars");
+        planetService.createPlanet(mars);
 
+        // Створення квитка
+        Ticket ticket = new Ticket();
+        ticket.setClient(client);
+        ticket.setFromPlanet(earth);
+        ticket.setToPlanet(mars);
 
-            Planet planet1 = new Planet();
-            planet1.setId("EARTH");
-            planet1.setName("Earth");
-            planetCrudService.createPlanet(planet1);
+        ticketService.createTicket(ticket);
 
-
-            List<Client> clients = clientCrudService.getAllClients();
-            List<Planet> planets = planetCrudService.getAllPlanets();
-
-            System.out.println("Clients:");
-            clients.forEach(client -> System.out.println(client.getName()));
-
-            System.out.println("Planets:");
-            planets.forEach(planet -> System.out.println(planet.getName()));
-
-
-            client1.setName("John Updated");
-            clientCrudService.updateClient(client1);
-
-
-            planet1.setName("Earth Updated");
-            planetCrudService.updatePlanet(planet1);
-
-
-            clientCrudService.deleteClient(client1.getId());
-            planetCrudService.deletePlanet(planet1.getId());
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Перевірка роботи CRUD
+        System.out.println("Tickets:");
+        for (Ticket t : ticketService.getAllTickets()) {
+            System.out.println("Ticket ID: " + t.getId() +
+                    ", Client: " + t.getClient().getName() +
+                    ", From: " + t.getFromPlanet().getName() +
+                    ", To: " + t.getToPlanet().getName());
         }
     }
 }
