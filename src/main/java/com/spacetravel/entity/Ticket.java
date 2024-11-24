@@ -1,6 +1,7 @@
 package com.spacetravel.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,33 +12,39 @@ public final class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @NotNull(message = "Client cannot be null")
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
+    @NotNull(message = "From planet cannot be null")
     @ManyToOne
     @JoinColumn(name = "from_planet_id", nullable = false)
     private Planet fromPlanet;
 
+    @NotNull(message = "To planet cannot be null")
     @ManyToOne
     @JoinColumn(name = "to_planet_id", nullable = false)
     private Planet toPlanet;
 
-
-    public Ticket() {}
-
-
-    public Ticket(Client client, Planet fromPlanet, Planet toPlanet) {
-        this.client = client;
-        this.fromPlanet = fromPlanet;
-        this.toPlanet = toPlanet;
+    public Ticket() {
         this.createdAt = LocalDateTime.now(); // Призначення поточної дати та часу
     }
 
+    public Ticket(Client client, Planet fromPlanet, Planet toPlanet) {
+        if (client == null || fromPlanet == null || toPlanet == null) {
+            throw new IllegalArgumentException("Client and planets cannot be null");
+        }
+        this.client = client;
+        this.fromPlanet = fromPlanet;
+        this.toPlanet = toPlanet;
+        this.createdAt = LocalDateTime.now();
+    }
 
+    // Геттери та сеттери
     public Long getId() {
         return id;
     }
@@ -59,6 +66,9 @@ public final class Ticket {
     }
 
     public void setClient(Client client) {
+        if (client == null) {
+            throw new IllegalArgumentException("Client cannot be null");
+        }
         this.client = client;
     }
 
@@ -67,6 +77,9 @@ public final class Ticket {
     }
 
     public void setFromPlanet(Planet fromPlanet) {
+        if (fromPlanet == null) {
+            throw new IllegalArgumentException("From planet cannot be null");
+        }
         this.fromPlanet = fromPlanet;
     }
 
@@ -75,11 +88,20 @@ public final class Ticket {
     }
 
     public void setToPlanet(Planet toPlanet) {
+        if (toPlanet == null) {
+            throw new IllegalArgumentException("To planet cannot be null");
+        }
         this.toPlanet = toPlanet;
     }
 
     @Override
     public String toString() {
-        return "Ticket{id=" + id + ", createdAt=" + createdAt + ", client=" + client.getName() + ", fromPlanet=" + fromPlanet.getName() + ", toPlanet=" + toPlanet.getName() + "}";
+        return "Ticket{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", client=" + (client != null ? client.getName() : "null") +
+                ", fromPlanet=" + (fromPlanet != null ? fromPlanet.getName() : "null") +
+                ", toPlanet=" + (toPlanet != null ? toPlanet.getName() : "null") +
+                '}';
     }
 }
